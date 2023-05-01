@@ -1,22 +1,17 @@
-import React from 'react';
-import Template1 from "../assets/img/template/template1.jpg";
+import React, {useRef} from 'react';
 import {toPng} from 'html-to-image';
 import download from 'downloadjs';
-//import data
 import {TemplateData} from '../data';
-
-//import use params
 import {useParams} from 'react-router-dom';
 
 const MemesCreator = () => {
     const [text, setText] = React.useState("");
-
     function handleText(event) {
         const newText = event.target.value
         setText(newText)
     }
 
-    const node = React.useRef(null)
+    const node = useRef(null)
     function downloadImage(){
         toPng(node.current)
             .then(dataURL =>{

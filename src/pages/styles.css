@@ -19,4 +19,9 @@ textarea {
     padding: 5px;
     font-size: 1.2rem;
     font-family: Arial, sans-serif;
+    color: yellowgreen
+}
+
+textarea::placeholder {
+    color: yellowgreen
 }
