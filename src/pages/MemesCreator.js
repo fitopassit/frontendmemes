@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Template1 from "../assets/img/template/template1.jpg";
 import {toPng} from 'html-to-image';
 import download from 'downloadjs';
@@ -16,7 +16,7 @@ const MemesCreator = () => {
         setText(newText)
     }
 
-    const node = React.useRef(null)
+    const node = useRef(null)
     function downloadImage(){
         toPng(node.current)
             .then(dataURL =>{
