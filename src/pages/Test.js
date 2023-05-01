@@ -1,72 +1,69 @@
-import {toPng} from "html-to-image";
+import { toPng } from "html-to-image";
 import download from "downloadjs";
-import React from 'react';
+import React, { useRef, useState } from "react";
 
-function TextArea({onClick, style, value, onChange}) {
-    return (
-        <textarea
-            onClick={onClick}
-            style={style}
-            value={value}
-            onChange={onChange} // adding onChange
-            placeholder="Click to add text"
-        />
-    );
+function TextArea({ onClick, style, value, onChange }) {
+  return (
+    <textarea
+      onClick={onClick}
+      style={{ position: "absolute", background: "none", ...style }}
+      value={value}
+      onChange={onChange}
+      placeholder="Click to add text"
+    />
+  );
 }
 
 function ImageWithText() {
-    const [textAreas, setTextAreas] = React.useState({});
+  const [textAreaValue, setTextAreaValue] = useState("");
+  const [showTextArea, setShowTextArea] = React.useState(false);
+  const [textAreaPosition, setTextAreaPosition] = useState({
+    left: null,
+    top: null,
+  });
 
+  const node = useRef(null);
+  function handleImageClick(e) {
+    setShowTextArea(true);
+    const x = e.nativeEvent.offsetX;
+    const y = e.nativeEvent.offsetY;
+    setTextAreaPosition({ left: x + "px", top: y + "px" });
+  }
+  function handleTextChange(e) {
+    setTextAreaValue(e.target.value);
+  }
+  function downloadImage() {
+    toPng(node)
+      .then((dataURL) => {
+        download(dataURL, "memes.png");
+      })
+      .catch(() => console.log("error"));
+  }
 
-    function handleImageClick(e) {
-        const x = e.nativeEvent.offsetX;
-        const y = e.nativeEvent.offsetY;
-        const newArea = {
-            position: 'absolute',
-            left: x + 'px',
-            top: y + 'px',
-            value: textAreas.value ? textAreas.value : "", // adding value property
-        };
-        setTextAreas(newArea);
-    }
+  return (
+    <div className="container">
+      <div className="relative" ref={node}>
+        <img
+          src="https://placekitten.com/600/400"
+          alt="Click to add text"
+          onClick={handleImageClick}
+        />
+        {showTextArea && (
+          <TextArea
+            style={textAreaPosition}
+            value={textAreaValue}
+            onChange={handleTextChange}
+          />
+        )}
+      </div>
 
-    function handleTextChange(e) { // adding index
-        setTextAreas({...textAreas, value: e.target.value});
-    }
-
-    const node = document.getElementById("image-download")
-
-    function downloadImage() {
-        toPng(node)
-            .then(dataURL => {
-                download(dataURL, 'memes.png')
-            })
-            .catch(() => console.log("error"))
-    }
-
-    return (
-        <div className="container">
-            <div className="image-wrapper" id="image-download">
-                <img
-                    src="https://placekitten.com/600/400"
-                    alt="Click to add text"
-                    onClick={handleImageClick}
-                />
-                {textAreas && (
-                    <TextArea
-                        style={textAreas}
-                        value={textAreas.value}
-                        onChange={(e) => handleTextChange(e)} // pass index to handler
-                    />
-                )}
-            </div>
-
-            <div>
-                <button className="download-button" onClick={downloadImage}>Download Image</button>
-            </div>
-        </div>
-
-    );
+      <div>
+        <button className="download-button" onClick={downloadImage}>
+          Download Image
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default ImageWithText;
