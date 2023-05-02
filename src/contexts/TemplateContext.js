@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+ import React, { useState, createContext } from "react";
 import { TemplateData } from "../data";
 export const TemplateContext = createContext();
 const TemplateContextProvider = ({ children }) => {

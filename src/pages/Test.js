@@ -1,6 +1,8 @@
 import { toPng } from "html-to-image";
 import download from "downloadjs";
 import React, { useRef, useState } from "react";
+import {TemplateData} from '../data';
+import {useParams} from "react-router-dom";
 
 function TextArea({ onClick, style, value, onChange }) {
   return (
@@ -13,6 +15,7 @@ function TextArea({ onClick, style, value, onChange }) {
     />
   );
 }
+
 
 function ImageWithText() {
   const [textAreaValue, setTextAreaValue] = useState("");
@@ -33,18 +36,23 @@ function ImageWithText() {
     setTextAreaValue(e.target.value);
   }
   function downloadImage() {
-    toPng(node)
+    toPng(node.current)
       .then((dataURL) => {
         download(dataURL, "memes.png");
       })
       .catch(() => console.log("error"));
   }
 
+  const {id} = useParams();
+  const template = TemplateData.find(template=>{
+    return template.id === parseInt(id);
+  });
+
   return (
     <div className="container">
       <div className="relative" ref={node}>
         <img
-          src="https://placekitten.com/600/400"
+          src={template.img}
           alt="Click to add text"
           onClick={handleImageClick}
         />

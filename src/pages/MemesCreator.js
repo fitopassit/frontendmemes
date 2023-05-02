@@ -1,23 +1,46 @@
-import React, {useRef} from 'react';
-import {toPng} from 'html-to-image';
-import download from 'downloadjs';
+import { toPng } from "html-to-image";
+import download from "downloadjs";
+import React, { useRef, useState } from "react";
 import {TemplateData} from '../data';
-import {useParams} from 'react-router-dom';
+import {useParams} from "react-router-dom";
 
-const MemesCreator = () => {
-    const [text, setText] = React.useState("");
-    function handleText(event) {
-        const newText = event.target.value
-        setText(newText)
+function TextArea({ onClick, style, value, onChange }) {
+    return (
+        <textarea
+            onClick={onClick}
+            style={{ position: "absolute", background: "none", ...style }}
+            value={value}
+            onChange={onChange}
+            placeholder="Click to add text"
+        />
+    );
+}
+
+
+function MemesCreator() {
+    const [textAreaValue, setTextAreaValue] = useState("");
+    const [showTextArea, setShowTextArea] = React.useState(false);
+    const [textAreaPosition, setTextAreaPosition] = useState({
+        left: null,
+        top: null,
+    });
+
+    const node = useRef(null);
+    function handleImageClick(e) {
+        setShowTextArea(true);
+        const x = e.nativeEvent.offsetX;
+        const y = e.nativeEvent.offsetY;
+        setTextAreaPosition({ left: x + "px", top: y + "px" });
     }
-
-    const node = useRef(null)
-    function downloadImage(){
+    function handleTextChange(e) {
+        setTextAreaValue(e.target.value);
+    }
+    function downloadImage() {
         toPng(node.current)
-            .then(dataURL =>{
-            download(dataURL,'memes.png')
-        })
-            .catch(() => console.log("error"))
+            .then((dataURL) => {
+                download(dataURL, "memes.png");
+            })
+            .catch(() => console.log("error"));
     }
 
     const {id} = useParams();
@@ -25,21 +48,30 @@ const MemesCreator = () => {
         return template.id === parseInt(id);
     });
 
+    return (
+        <div className="container">
+            <div className="relative" ref={node}>
+                <img
+                    src={template.img}
+                    alt="Click to add text"
+                    onClick={handleImageClick}
+                />
+                {showTextArea && (
+                    <TextArea
+                        style={textAreaPosition}
+                        value={textAreaValue}
+                        onChange={handleTextChange}
+                    />
+                )}
+            </div>
 
-    return <div className="container mx-auto flex-col flex justify-between items-center">
-        <input type="text" placeholder="Type text here" className="input" onChange={handleText}
-               value={text}/>
-        <div ref={node}>
-            <img src={template.img} alt=""/>
-            <h1 className="image-text relative bottom-40 text-center">{text}</h1>
+            <div>
+                <button className="download-button" onClick={downloadImage}>
+                    Download Image
+                </button>
+            </div>
         </div>
-        <button className="download-button" onClick={downloadImage}>Download Image</button>
-    </div>;
-
-
-
-
-};
+    );
+}
 
 export default MemesCreator;
-
