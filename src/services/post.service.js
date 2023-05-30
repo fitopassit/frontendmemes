@@ -1,14 +1,11 @@
-import axios from "axios";
-import authHeader from "./auth-header";
-
-const API_URL = "http://localhost:5000/api";
+import api from "./api";
 
 const getAllPatterns = () => {
-    return axios.get(API_URL + "/all_patterns");
+    return api.get("/all_patterns");
 };
 
 const getAllMyMemes = () => {
-    return axios.get(API_URL + "/private", { headers: authHeader() });
+    return api.get("/posts/private");
 };
 
 const postService = {
