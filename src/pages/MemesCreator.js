@@ -42,6 +42,13 @@ function MemesCreator() {
             })
             .catch(() => console.log("error"));
     }
+    function sendImage() {
+        toPng(node.current)
+            .then((dataURL) => {
+                // отправка
+            })
+            .catch(() => console.log("error"));
+    }
 
     const {id} = useParams();
     const template = TemplateData.find(template=>{
