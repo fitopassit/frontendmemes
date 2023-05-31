@@ -1,7 +1,13 @@
 import api from "./api";
 
+
 const getAllPatterns = () => {
-    return api.get("/all_patterns");
+    return api
+        .get("/all_patterns").
+        then((response) => {
+
+            return response.data;
+        });
 };
 
 const getAllMyMemes = () => {

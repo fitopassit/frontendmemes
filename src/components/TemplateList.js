@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 // import context
 import { TemplateContext } from "../contexts/TemplateContext";
@@ -6,11 +6,23 @@ import { TemplateContext } from "../contexts/TemplateContext";
 import Template from "./Template";
 // import link
 import { Link } from "react-router-dom";
+import AuthService from "../services/auth.service";
+import memesService from "../services/memes.service";
+import postService from "../services/post.service";
 // import icons
 
 const TemplateList = () => {
   const { template, loading } = useContext(TemplateContext);
   console.log(template);
+
+  // const [templates, setTemplates] = useState('');
+  // useEffect(() => {
+  //     const allPatterns = postService.getAllPatterns();
+  //     console.log("ALL PATTERNS", allPatterns)
+  // });
+
+
+
 
   return (
     <section className="mb-20">

@@ -1,6 +1,17 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import adminService from "../services/admin.service";
 
 const Stats = () => {
+  const [oneMouthUsers, setoneMouthUsers] = useState(0);
+
+  useEffect(async () => {
+    const user = await adminService.getUsersOneMouth();
+    console.log("chel", user)
+
+  }, []);
+
+
+
   return (
     <div>
       <div className="flex flex-col">
