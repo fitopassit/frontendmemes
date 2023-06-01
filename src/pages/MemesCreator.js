@@ -1,8 +1,8 @@
 import { toPng } from "html-to-image";
-import download from "downloadjs";
-import React, { useRef, useState } from "react";
-import {TemplateData} from '../data';
+import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
+import PostService from "../services/PostService";
+
 
 function TextArea({ onClick, style, value, onChange }) {
     return (
@@ -36,30 +36,65 @@ function MemesCreator() {
         setTextAreaValue(e.target.value);
     }
     function downloadImage() {
-        toPng(node.current)
-            .then((dataURL) => {
-                download(dataURL, "memes.png");
+
+        console.log(node.current)
+        toPng(node.current, { cacheBust: false })
+
+            .then((dataUrl) => {
+                const link = document.createElement('a')
+                link.download = 'my-image-name.png'
+                link.href = dataUrl
+                link.click()
             })
-            .catch(() => console.log("error"));
-    }
-    function sendImage() {
-        toPng(node.current)
-            .then((dataURL) => {
-                // отправка
+            .catch((err) => {
+                console.log(err)
             })
-            .catch(() => console.log("error"));
+
+        // console.log("DATAURL", node.current)
+        // toPng(node.current, {cacheBust: true})
+        //
+        //     .then((dataURL) => {
+        //         console.log("DATAURL", node.current)
+        //         download(dataURL, "memes.png");
+        //     })
+        //     .catch((e) => console.log(e));
     }
+
+
+
+    // function sendImage() {
+    //     toPng(node.current)
+    //         .then((dataURL) => {
+    //             // отправка
+    //         })
+    //         .catch(() => console.log("error"));
+    // }
 
     const {id} = useParams();
-    const template = TemplateData.find(template=>{
-        return template.id === parseInt(id);
-    });
+    const [template, SetTeamplate] = useState({});
+    const [loading, Setloading] = useState(true);
+    const back = "http://localhost:5000/static/patterns/"
+    useEffect(() => {
 
+        const getTemplates = async () => {
+            return await PostService.currentTemplates(id);
+        }
+        getTemplates().then((resp) => {
+            SetTeamplate(resp.data)
+
+        }).finally(() => Setloading(false));
+    }, []);
+
+    if (loading){
+        return (<div>
+            loading
+        </div>)
+    }
     return (
         <div className="container">
-            <div className="relative" ref={node}>
+            <div className="relative" ref={node} >
                 <img
-                    src={template.img}
+                    src={back + template.img}
                     alt="Click to add text"
                     onClick={handleImageClick}
                 />

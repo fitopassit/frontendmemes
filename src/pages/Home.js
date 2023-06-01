@@ -5,6 +5,8 @@ import TemplateList from "../components/TemplateList";
 
 const Home = () => {
 
+
+
   return (
     <div>
       <Search />

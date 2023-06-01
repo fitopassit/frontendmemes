@@ -27,7 +27,7 @@ const App = () => {
             store.checkAuth();
         }
     }, [])
-        // спросить если статс засунуть в приваты, то будет хуйня
+
     return (
 
             <div className="max-w-[1080p] mx-auto bg-white">

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useMemo} from "react";
-import UserService from "../services/UserService";
+import StatsService from "../services/StatsService";
 import UsesTopTable from "../components/UsesTopTable";
 import LikesTopTable from "../components/LikesTopTable";
 
@@ -13,30 +13,30 @@ const Stats = () => {
 
 
   const getOneDayUsers = async  () => {
-    return await UserService.fetchDayUsers();
+    return await StatsService.fetchDayUsers();
 
   }
   getOneDayUsers().then((resp)=> setOneDayUsers(resp))
 
   const getOneWeekUsers = async  () => {
-    return await UserService.fetchWeakUsers();
+    return await StatsService.fetchWeakUsers();
 
   }
   getOneWeekUsers().then((resp)=> setOneWeakUsers(resp))
   const getOneYearUsers = async  () => {
-    return await UserService.fetchYearUsers();
+    return await StatsService.fetchYearUsers();
 
   }
   getOneYearUsers().then((resp)=> setOneYearUsers(resp))
   const getAllUsers = async  () => {
-    return await UserService.fetchAllUsers();
+    return await StatsService.fetchAllUsers();
 
   }
   getAllUsers().then((resp)=> setAllUsers(resp))
 
 
   const getUsesTop = async  () => {
-    return await UserService.fetchPatternsByUses();
+    return await StatsService.fetchPatternsByUses();
 
   }
   getUsesTop().then((resp)=> setUsesData(resp))
@@ -44,7 +44,7 @@ const Stats = () => {
     getUsesTop()
   },[])
   const getLikesTop = async  () => {
-    return await UserService.fetchPatternsByLikes();
+    return await StatsService.fetchPatternsByLikes();
 
   }
   getLikesTop().then((resp)=> setLikesData(resp))
