@@ -19,4 +19,9 @@ export default class PostService {
     static async getFavorite(){
         return $api.get('/patterns')
     }
+
+    static async getMyMemes(){
+        return $api.get('/memes')
+    }
+
 }

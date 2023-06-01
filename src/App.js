@@ -18,6 +18,7 @@ import Favorite from "./pages/Favorite";
 import {Context} from "./index";
 import Privateroute from "./router/Privateroute";
 import Adminroute from "./router/Adminroute";
+import MyMemes from "./pages/MyMemes";
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
                     <Route path="/register" element={<Register/>}/>
                     <Route path="*" element={<Recovery/>}></Route>
                     <Route element={<Privateroute/>}>
+                        <Route path="/mymemes" element={<MyMemes/>}/>
                         <Route path="/property/:id" element={<PropertyDetails/>}/>
                         <Route path="/favorite" element={<Favorite/>}/>
                         <Route path="/memescreator/:id" element={<MemesCreator/>}/>

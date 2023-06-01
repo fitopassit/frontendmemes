@@ -40,6 +40,7 @@ const Stats = () => {
 
   }
   getUsesTop().then((resp)=> setUsesData(resp))
+
   useEffect(() => {
     getUsesTop()
   },[])

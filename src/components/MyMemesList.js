@@ -1,24 +1,24 @@
-import React, {useEffect, useState} from "react";
-
-// import context
-// import components
+import React, {useContext, useEffect, useState} from "react";
 import Template from "./Template";
-// import link
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import PostService from "../services/PostService";
-// import icons
+import MemesTemplate from "./MemesTemplate";
 
-const TemplateList = () => {
+const MyMemesList = () => {
+
     const [loading, SetLoading] = useState(false);
     const [template, SetTeamplate] = useState([])
     useEffect(() => {
-        const getTeamplates = async () => {
-            return await PostService.getTemplates();
+        const getTeamplates = async  () => {
+            return await PostService.getMyMemes();
         }
-        getTeamplates().then((resp) => SetTeamplate(resp.data))
+        getTeamplates().then((resp)=> SetTeamplate(resp.data))
         SetLoading(true);
     }, []);
 
+// <Link to={`/property/${temp._id}`} key={temp._id}>
+//     <MemesTemplate temp={temp} />
+    // {/*</Link>*/}
 
     return (
         <section className="mb-20">
@@ -26,9 +26,9 @@ const TemplateList = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-14">
                     {template.map((temp, index) => {
                         return (
-                            <Link to={`/property/${temp._id}`} key={temp._id}>
-                                <Template temp={temp}/>
-                            </Link>
+
+                                <MemesTemplate temp={temp} />
+
                         );
                     })}
                 </div>
@@ -37,4 +37,4 @@ const TemplateList = () => {
     );
 };
 
-export default TemplateList;
+export default MyMemesList;

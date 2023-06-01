@@ -5,11 +5,11 @@ import TemplateList from "../components/TemplateList";
 
 const Home = () => {
 
-
+    // <Search />
 
   return (
     <div>
-      <Search />
+
       <TemplateList />
     </div>
   );

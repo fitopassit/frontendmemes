@@ -18,6 +18,9 @@ const Header = () => {
                         <img width="200" height="100" src={Logo} alt=""/>
                     </Link>
                     <div className="flex items-center gap-6">
+                        <Link to="/mymemes">
+                            <h1>my memes</h1>
+                        </Link>
                         <Link to="/favorite">
                             <h1>favorite</h1>
                         </Link>
@@ -45,6 +48,9 @@ const Header = () => {
                             <img width="200" height="100" src={Logo} alt=""/>
                         </Link>
                         <div className="flex items-center gap-6">
+                            <Link to="/mymemes">
+                                <h1>my memes</h1>
+                            </Link>
                             <Link to="/favorite">
                                 <h1>favorite</h1>
                             </Link>
