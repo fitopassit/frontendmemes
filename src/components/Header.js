@@ -1,33 +1,31 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Logo from "../assets/img/logo.svg";
-import AuthService from "../services/auth.service";
+import {Context} from "../index";
+import { observer } from "mobx-react-lite";
 
 const Header = () => {
-  const [currentUser, setCurrentUser] = useState(undefined);
-
-  useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-    }
-  }, []);
-
-  const logOut = () => {
-    AuthService.logout();
-  };
-  console.log("current user", currentUser)
+  const {store} = useContext(Context);
+    const navigate = useNavigate();
+  console.log("HEADER", store.checkAuth())
   return (
-      currentUser ? (
+      store.isAuth ? (
           <header className="py-6 mb-12 border-b">
             <div className="container mx-auto flex justify-between items-center">
               <Link to="/">
                 <img width="200" height="100" src={Logo} alt="" />
               </Link>
               <div className="flex items-center gap-6">
-                <a href="/login" className="hover:text-violet-900" onClick={logOut}>
+                  <Link to="/stats">
+                      <h1>stats</h1>
+                  </Link>
+                <a className="hover:text-violet-900" onClick={() => {
+                    store.logout()
+                    navigate('/login');
+                    window.location.reload();
+                }
+                }>
                   Logout
                 </a>
               </div>
@@ -36,10 +34,13 @@ const Header = () => {
         ) : (
           <header className="py-6 mb-12 border-b">
             <div className="container mx-auto flex justify-between items-center">
+
               <Link to="/">
                 <img width="200" height="100" src={Logo} alt="" />
               </Link>
               <div className="flex items-center gap-6">
+
+
                 <Link className="hover:text-violet-900" to="/login">
                   Log in
                 </Link>
@@ -57,4 +58,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default observer(Header);

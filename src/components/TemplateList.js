@@ -6,9 +6,7 @@ import { TemplateContext } from "../contexts/TemplateContext";
 import Template from "./Template";
 // import link
 import { Link } from "react-router-dom";
-import AuthService from "../services/auth.service";
-import memesService from "../services/memes.service";
-import postService from "../services/post.service";
+
 // import icons
 
 const TemplateList = () => {

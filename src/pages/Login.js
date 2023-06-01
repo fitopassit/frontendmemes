@@ -1,25 +1,20 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import loginimg from "../assets/img/login/login.jpg";
 import {Link, useNavigate} from "react-router-dom";
-import AuthService from "../services/auth.service";
+import {Context} from "../index";
+import { observer } from "mobx-react-lite";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const {store} = useContext(Context);
     const navigate = useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await AuthService.login(email, password).then(
-             () => {
-                    navigate('/');
-                    window.location.reload();
-                    console.log("LOGIN SUC")
-                },
-                (error) => {
-                console.log(error);
-            }
-            );
+            store.login(email, password);
+            navigate('/');
+            // window.location.reload();
             }catch (err){
                 console.log(err);
             }
@@ -64,4 +59,4 @@ const Login = () => {
             </div>
         );
     };
-    export default Login;
+    export default observer(Login);
